@@ -11,10 +11,23 @@ import {
 	FaBell,
 	FaBars,
 	FaTimes,
+	FaMoon,
+	FaSun,
 } from "react-icons/fa";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
+
+	const [isDark, setIsDark] = useState(true);
+
+	const toggleTheme = () => {
+		const htmlElement = document.documentElement;
+
+		htmlElement.classList.remove(isDark ? "dark" : "light");
+		htmlElement.classList.add(!isDark ? "dark" : "light");
+
+		setIsDark(!isDark);
+	};
 
 	const toggleMenu = () => {
 		setIsOpen(!isOpen);
@@ -86,6 +99,12 @@ const Navbar = () => {
 				>
 					<FaUserCircle className="mr-2" />
 				</Link>
+				<button
+					onClick={toggleTheme}
+					className="p-2 shadow-md dark:shadow-md dark:shadow-gray-700 rounded-full "
+				>
+					{isDark ? <FaSun /> : <FaMoon />}
+				</button>
 			</div>
 
 			<div className="md:hidden">
@@ -160,6 +179,15 @@ const Navbar = () => {
 						<FaUserCircle className="mr-2" />
 						Profile
 					</Link>
+					<div>
+						<button
+							onClick={toggleTheme}
+							className="p-2 shadow-md dark:shadow-md dark:shadow-gray-700 rounded-full "
+						>
+							{isDark ? <FaSun /> : <FaMoon />}
+						</button>
+						<span className="ml-2">Theme</span>
+					</div>
 				</div>
 			</div>
 		</nav>

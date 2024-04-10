@@ -1,0 +1,96 @@
+import React, { useState, ReactNode } from "react";
+
+interface PopupModalProps {
+	isOpen: boolean;
+	setIsOpen: (isOpen: boolean) => void;
+	content: ReactNode;
+}
+
+const PopupModal: React.FC<PopupModalProps> = ({
+	isOpen,
+	setIsOpen,
+	content,
+}) => {
+	return (
+		<div
+			className={`fixed inset-0 z-50 flex    justify-center ${
+				isOpen ? "visible" : "invisible"
+			}`}
+		>
+			<div className="absolute inset-0 bg-dark-bg opacity-70"></div>
+			<div
+				className={`relative overflow-y-scroll rounded-lg p-8 dark:border-[1.5px]  min-w-full sm:min-w-96 w-auto bg-light-bg dark:bg-dark-bg text-dark-text dark:text-dark-text`}
+			>
+				<button
+					className="absolute top-4 right-4 text-light-text dark:text-dark-text hover:text-light-error dark:hover:text-dark-error"
+					onClick={() => setIsOpen(false)}
+				>
+					<svg
+						className="h-6 w-6"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							strokeWidth="2"
+							d="M6 18L18 6M6 6l12 12"
+						></path>
+					</svg>
+				</button>
+				{content}
+			</div>
+		</div>
+	);
+};
+
+export default PopupModal;
+
+{
+	/* <form onSubmit={handleSubmit}>
+					<div className="mb-4">
+						<label
+							className="block text-light-text dark:text-dark-text font-bold mb-2"
+							htmlFor="name"
+						>
+							Name
+						</label>
+						<input
+							className="shadow appearance-none border rounded w-full py-2 px-3 text-light-text dark:text-dark-text leading-tight focus:outline-none focus:shadow-outline bg-light-bg dark:bg-dark-bg"
+							id="name"
+							type="text"
+							name="name"
+							value={formData.name}
+							onChange={handleChange}
+							required
+						/>
+					</div>
+					<div className="mb-6">
+						<label
+							className="block text-light-text dark:text-dark-text font-bold mb-2"
+							htmlFor="email"
+						>
+							Email
+						</label>
+						<input
+							className="shadow appearance-none border rounded w-full py-2 px-3 text-light-text dark:text-dark-text leading-tight focus:outline-none focus:shadow-outline bg-light-bg dark:bg-dark-bg"
+							id="email"
+							type="email"
+							name="email"
+							value={formData.email}
+							onChange={handleChange}
+							required
+						/>
+					</div>
+					<div className="flex items-center justify-between">
+						<button
+							className="bg-dark-primary dark:bg-dark-secondary hover:bg-light-primary dark:hover:bg-dark-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+							type="submit"
+						>
+							Submit
+						</button>
+					</div>
+				</form> */
+}
