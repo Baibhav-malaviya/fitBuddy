@@ -10,7 +10,15 @@ interface IUser extends Document {
 	weight?: number;
 	height?: number;
 	gender?: string;
-	comparePassword: (candidatePassword: string) => Promise<boolean>;
+	avatar: string;
+	resetPasswordToken?: string;
+	resetPasswordExpires?: Date;
+	verificationToken?: string;
+	verificationTokenExpires?: Date;
+	isVerified: boolean;
+	createdAt: Date;
+	updatedAt: Date;
+	isCorrectPassword: (candidatePassword: string) => Promise<boolean>;
 }
 
 const userSchema = new Schema<IUser>(
@@ -23,6 +31,14 @@ const userSchema = new Schema<IUser>(
 		weight: { type: Number },
 		height: { type: Number },
 		gender: { type: String, enum: ["male", "female", "other"] },
+		resetPasswordToken: String,
+		resetPasswordExpires: Date,
+		verificationToken: String,
+		verificationTokenExpires: Date,
+		isVerified: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	{ timestamps: true }
 );
@@ -52,12 +68,13 @@ userSchema.pre<IUser>("save", function (next) {
 	next();
 });
 
-userSchema.methods.comparePassword = async function (
+userSchema.methods.isCorrectPassword = async function (
 	candidatePassword: string
 ): Promise<boolean> {
 	return await bcrypt.compare(candidatePassword, this.password);
 };
 
-const User = mongoose.model<IUser>("User", userSchema);
+const User =
+	mongoose.models.users || mongoose.model<IUser>("users", userSchema);
 
 export default User;

@@ -1,4 +1,4 @@
-import connectDB from "@/connectDb/connectDB";
+import connectDB from "@/connectDB/connectDB";
 import Workout from "@/models/workout.model";
 import { NextRequest, NextResponse } from "next/server";
 

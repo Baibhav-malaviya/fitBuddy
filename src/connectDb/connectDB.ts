@@ -23,7 +23,7 @@ async function connectDB() {
 		cachedConnection = connection.connection;
 
 		cachedConnection.on("error", (err) => {
-			console.error("MongoDB connection error:", err);
+			console.log("MongoDB connection error:", err);
 		});
 
 		cachedConnection.once("open", () => {
