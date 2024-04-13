@@ -14,6 +14,7 @@ import {
 	FaMoon,
 	FaSun,
 } from "react-icons/fa";
+import { Button } from "./ui/button";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +40,7 @@ const Navbar = () => {
 				<Link href="/" className="font-bold text-pink-600 text-lg mr-4">
 					FitTracker
 				</Link>
+				{/* For desktop */}
 				<div className="hidden md:flex space-x-4">
 					<Link
 						href="/dashboard"
@@ -60,17 +62,17 @@ const Navbar = () => {
 					</Link>
 					<Link
 						href="/workouts"
-						className="flex items-center hover:bg-blue-500/20 p-[3px] px-2 rounded hover:text-light-primary dark:hover:text-dark-primary transition duration-300"
+						className="flex items-center hover:bg-blue-500/20 p-[3px] px-2 rounded hover:text-blue-500 transition duration-300"
 					>
-						<FaRunning className="mr-2 text-light-primary" />
+						<FaRunning className="mr-2 text-blue-500" />
 
 						<span className="md:hidden lg:inline">Workouts</span>
 					</Link>
 					<Link
 						href="/nutrition"
-						className="flex items-center hover:bg-green-500/20 p-[3px] px-2 rounded hover:text-light-secondary dark:hover:text-dark-secondary transition duration-300"
+						className="flex items-center hover:bg-green-500/20 p-[3px] px-2 rounded hover:text-green-500 transition duration-300"
 					>
-						<FaUtensils className="mr-2 text-dark-secondary" />
+						<FaUtensils className="mr-2 text-green-500" />
 
 						<span className="md:hidden lg:inline">Nutrition</span>
 					</Link>
@@ -85,14 +87,14 @@ const Navbar = () => {
 				</div>
 			</div>
 
-			<div className="hidden md:flex  items-center">
-				<button className="flex items-center hover:text-indigo-500 dark:text-indigo-500 mr-4 transition duration-300">
+			<div className="hidden md:flex  items-center space-x-2">
+				<Button variant={"outline"}>
+					{" "}
 					<FaBell className="mr-2 text-indigo-500" />
 					Reminders
-				</button>
-				<button className="bg-light-primary dark:bg-dark-primary hover:bg-light-secondary dark:hover:bg-dark-secondary text-white font-bold py-2 px-4 rounded mr-4 transition duration-300">
-					Set Goals
-				</button>
+				</Button>
+
+				<Button>Set Goals</Button>
 				<Link
 					href="/profile"
 					className="flex items-center hover:text-light-primary dark:hover:text-dark-primary transition duration-300"
@@ -143,17 +145,17 @@ const Navbar = () => {
 					</Link>
 					<Link
 						href="/workouts"
-						className="flex items-center hover:bg-blue-500/20 p-[3px] px-2 rounded hover:text-light-primary dark:hover:text-dark-primary transition duration-300"
+						className="flex items-center hover:bg-blue-500/20 p-[3px] px-2 rounded hover:text-blue-500 transition duration-300"
 					>
-						<FaRunning className="mr-2 text-light-primary" />
+						<FaRunning className="mr-2 text-blue-500" />
 
 						<span className="md:hidden lg:inline">Workouts</span>
 					</Link>
 					<Link
 						href="/nutrition"
-						className="flex items-center hover:bg-green-500/20 p-[3px] px-2 rounded hover:text-light-secondary dark:hover:text-dark-secondary transition duration-300"
+						className="flex items-center hover:bg-green-500/20 p-[3px] px-2 rounded hover:text-green-500 transition duration-300"
 					>
-						<FaUtensils className="mr-2 text-dark-secondary" />
+						<FaUtensils className="mr-2 text-green-500" />
 
 						<span className="md:hidden lg:inline">Nutrition</span>
 					</Link>
@@ -165,13 +167,12 @@ const Navbar = () => {
 
 						<span className="md:hidden lg:inline">Community</span>
 					</Link>
-					<button className="flex items-center py-2 hover:text-light-primary dark:hover:text-dark-primary transition duration-300">
-						<FaBell className="mr-2" />
+					<Button variant={"outline"}>
+						{" "}
+						<FaBell className="mr-2 text-indigo-500" />
 						Reminders
-					</button>
-					<button className="bg-light-primary dark:bg-dark-primary hover:bg-light-secondary dark:hover:bg-dark-secondary text-white font-bold py-2 px-4 rounded mt-4 transition duration-300">
-						Set Goals
-					</button>
+					</Button>
+					<Button>Set Goals</Button>
 					<Link
 						href="/profile"
 						className="flex items-center py-2 hover:text-light-primary dark:hover:text-dark-primary transition duration-300"

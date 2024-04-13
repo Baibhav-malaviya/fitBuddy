@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import mongoose, { Document } from "mongoose";
-import { Span } from "next/dist/trace";
+import { Button } from "./ui/button";
+import axios from "axios";
+import { useToast } from "./ui/use-toast";
+import { formatDate } from "@/utils/helpers";
 
 export interface IWorkoutExerciseSet {
 	reps: number;
@@ -29,6 +32,8 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onSubmit }) => {
 	const [openExerciseIndex, setOpenExerciseIndex] = useState<number | null>(
 		null
 	);
+	const { toast } = useToast();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const addExercise = () => {
 		setExercises([...exercises, { name: "", sets: [], calories: 0 }]);
@@ -80,8 +85,34 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onSubmit }) => {
 		setExercises(updatedExercises);
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		onSubmit(exercises);
+		try {
+			setIsLoading(true);
+			const response = await axios.post("/api/workout/add", {
+				date: new Date(),
+				exercises,
+			});
+			console.log("REsponse: ", response);
+			if (response.status === 200) {
+				toast({
+					title: "Added successfully!",
+					description: `Workout for ${formatDate(
+						new Date()
+					)} added successfully.`,
+				});
+				setExercises([]);
+			} else {
+				toast({
+					title: "Something went wrong!",
+					description: `Please try it again.`,
+				});
+			}
+			setIsLoading(false);
+		} catch (error) {
+			setIsLoading(false);
+			console.log("Error in exercises handleSubmit function: ", error);
+		}
 	};
 
 	const toggleExerciseForm = (exerciseIndex: number) => {
@@ -99,6 +130,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onSubmit }) => {
 			</h2>
 			{exercises.map((exercise, exerciseIndex) => (
 				<div key={exerciseIndex} className="mb-6">
+					{/* toggle exercise open or close */}
 					<div
 						className="flex items-center justify-between cursor-pointer"
 						onClick={() => toggleExerciseForm(exerciseIndex)}
@@ -109,25 +141,24 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onSubmit }) => {
 						<div className="flex items-center space-x-2">
 							<span className="text-light-text dark:text-dark-text text-2xl">
 								{openExerciseIndex === exerciseIndex ? (
-									<span className="px-[8px]  bg-light-highlight rounded">
+									<Button variant={"secondary"} size={"icon"}>
 										-
-									</span>
+									</Button>
 								) : (
-									<span className="px-[8px]  bg-light-highlight rounded">
+									<Button variant={"secondary"} size={"icon"}>
 										+
-									</span>
+									</Button>
 								)}
 							</span>
-							<button
-								type="button"
+							<Button
+								variant={"destructive"}
 								onClick={(e) => {
 									e.stopPropagation();
 									removeExercise(exerciseIndex);
 								}}
-								className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
 							>
 								Remove
-							</button>
+							</Button>
 						</div>
 					</div>
 
@@ -150,6 +181,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onSubmit }) => {
 									className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:text-white"
 								/>
 							</div>
+
 							{exercise.sets.map((set, setIndex) => (
 								<div key={setIndex} className="grid grid-cols-3 gap-4">
 									<div>
@@ -213,28 +245,23 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onSubmit }) => {
 										/>
 									</div>
 									<div>
-										<button
-											type="button"
+										<Button
+											variant={"destructive"}
 											onClick={(e) => {
 												e.stopPropagation();
 												removeSet(exerciseIndex, setIndex);
 											}}
-											className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
 										>
 											Remove Set
-										</button>
+										</Button>
 									</div>
 								</div>
 							))}
+
 							<div className="mt-4">
-								<button
-									type="button"
-									onClick={() => addSet(exerciseIndex)}
-									className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-								>
-									Add Set
-								</button>
+								<Button onClick={() => addSet(exerciseIndex)}>Add Set</Button>
 							</div>
+
 							<div className="mt-4">
 								<label
 									htmlFor={`calories-${exerciseIndex}`}
@@ -258,23 +285,15 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onSubmit }) => {
 			))}
 
 			<div className="mt-4">
-				<button
-					type="button"
-					onClick={addExercise}
-					className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-				>
-					Add Exercise
-				</button>
+				<Button onClick={addExercise}>Add Exercise</Button>
 			</div>
-			<div className="mt-8">
-				<button
-					type="button"
-					onClick={handleSubmit}
-					className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-				>
-					Submit Workout
-				</button>
-			</div>
+			{exercises.length > 0 && (
+				<div className="mt-8">
+					<Button onClick={handleSubmit} disabled={isLoading} size={"lg"}>
+						{isLoading ? "Submitting.." : "Submit Workout"}
+					</Button>
+				</div>
+			)}
 		</div>
 	);
 };

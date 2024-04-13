@@ -1,4 +1,5 @@
-import React, { useState, ReactNode } from "react";
+import React, { ReactNode } from "react";
+import { Button } from "./ui/button";
 
 interface PopupModalProps {
 	isOpen: boolean;
@@ -13,16 +14,18 @@ const PopupModal: React.FC<PopupModalProps> = ({
 }) => {
 	return (
 		<div
-			className={`fixed inset-0 z-50 flex    justify-center ${
+			className={`fixed inset-0 z-50 flex justify-center ${
 				isOpen ? "visible" : "invisible"
 			}`}
 		>
-			<div className="absolute inset-0 bg-dark-bg opacity-70"></div>
+			<div className="absolute inset-0 bg-background opacity-70"></div>
 			<div
-				className={`relative overflow-y-scroll rounded-lg p-8 dark:border-[1.5px]  min-w-full sm:min-w-96 w-auto bg-light-bg dark:bg-dark-bg text-dark-text dark:text-dark-text`}
+				className={`relative overflow-y-scroll rounded-lg p-8 dark:border-[1.5px] shadow-md   min-w-full sm:min-w-96 w-auto bg-background text-foreground`}
 			>
-				<button
-					className="absolute top-4 right-4 text-light-text dark:text-dark-text hover:text-light-error dark:hover:text-dark-error"
+				<Button
+					variant={"destructive"}
+					size={"icon"}
+					className="absolute top-4 right-4 "
 					onClick={() => setIsOpen(false)}
 				>
 					<svg
@@ -39,7 +42,7 @@ const PopupModal: React.FC<PopupModalProps> = ({
 							d="M6 18L18 6M6 6l12 12"
 						></path>
 					</svg>
-				</button>
+				</Button>
 				{content}
 			</div>
 		</div>

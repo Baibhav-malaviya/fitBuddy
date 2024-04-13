@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { FaUserCircle, FaSignInAlt } from "react-icons/fa";
+import { Button } from "./ui/button";
 
 const Navbar = () => {
 	return (
@@ -26,31 +27,28 @@ const Navbar = () => {
 				</div>
 			</div>
 
-			<div className="hidden md:flex items-center">
-				<Link
-					href="/login"
-					className="bg-light-primary dark:bg-dark-primary hover:bg-light-secondary dark:hover:bg-dark-secondary text-white font-bold py-2 px-4 rounded mr-4 transition duration-300 flex items-center"
-				>
-					<FaSignInAlt className="mr-2" />
-					Login
-				</Link>
-				<Link
-					href="/signup"
-					className="flex items-center hover:text-light-primary dark:hover:text-dark-primary transition duration-300"
-				>
-					<FaUserCircle className="mr-2" />
-					Register
-				</Link>
+			<div className="hidden md:flex space-x-1 items-center">
+				<Button size={"lg"} className="flex">
+					<Link href="/login" className="flex items-center ">
+						<FaSignInAlt className="mr-2" />
+						Login
+					</Link>
+				</Button>
+				<Button size={"lg"} variant={"outline"}>
+					<Link href="/signup" className="flex items-center ">
+						<FaUserCircle className="mr-2" />
+						Register
+					</Link>
+				</Button>
 			</div>
 
 			<div className="md:hidden">
-				<Link
-					href="/login"
-					className="bg-light-primary dark:bg-dark-primary hover:bg-light-secondary dark:hover:bg-dark-secondary text-white font-bold py-2 px-4 rounded mr-4 transition duration-300 flex items-center"
-				>
-					<FaSignInAlt className="mr-2" />
-					Login
-				</Link>
+				<Button size={"lg"} className="flex">
+					<Link href="/login" className="flex items-center ">
+						<FaSignInAlt className="mr-2" />
+						Login
+					</Link>
+				</Button>
 			</div>
 		</nav>
 	);

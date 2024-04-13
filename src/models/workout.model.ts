@@ -39,6 +39,8 @@ const workoutSchema = new Schema<IWorkoutDocument>(
 	{ timestamps: true }
 );
 
-const Workout = mongoose.model<IWorkoutDocument>("Workout", workoutSchema);
+const Workout =
+	mongoose.models.workouts ||
+	mongoose.model<IWorkoutDocument>("workouts", workoutSchema);
 
 export default Workout;

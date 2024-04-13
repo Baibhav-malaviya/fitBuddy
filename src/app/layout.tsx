@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Main from "@/components/Main";
 import NavbarBeforeAuth from "@/components/NavbarBeforeAuth";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,11 +19,12 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className="dark">
-			<body className={`${inter.className}`}>
+		<html lang="en" className="dark  ">
+			<body className={`${inter.className}  `}>
 				<Navbar />
 				<NavbarBeforeAuth />
 				<Main>{children}</Main>
+				<Toaster />
 			</body>
 		</html>
 	);

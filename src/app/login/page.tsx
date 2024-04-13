@@ -4,6 +4,8 @@ import Link from "next/link";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 const LoginPage = () => {
 	const [email, setEmail] = useState("");
@@ -11,6 +13,7 @@ const LoginPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
 	const router = useRouter();
+	const { toast } = useToast();
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
@@ -20,11 +23,15 @@ const LoginPage = () => {
 				email,
 				password,
 			});
-			setIsLoading(false);
-			console.log("Response of the login: ", response.data);
+
 			if (response.data.success === false) {
 				throw new Error(response.data.message);
 			}
+			setIsLoading(false);
+			toast({
+				title: "Logged in successfully",
+				description: "Navigating to '/' route ...",
+			});
 			router.push("/");
 		} catch (error: any) {
 			let errorMessage;
@@ -43,11 +50,9 @@ const LoginPage = () => {
 	};
 
 	return (
-		<div className="flex justify-center items-center min-h-screen bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text">
-			<div className="bg-white dark:border-[1.5px] border-dark-text dark:bg-dark-bg rounded-lg shadow-md p-8 max-w-md w-full">
-				<h2 className="text-2xl font-bold mb-6 text-light-text dark:text-dark-text">
-					Login to FitTracker
-				</h2>
+		<div className="flex justify-center items-center min-h-screen bg-background text-foreground">
+			<div className="bg-background dark:border-[1.5px] border-dark-text  rounded-lg shadow-md p-8 max-w-md w-full">
+				<h2 className="text-2xl font-bold mb-6 t">Login to FitTracker</h2>
 
 				<form onSubmit={handleSubmit}>
 					<div className="mb-4">
@@ -102,17 +107,15 @@ const LoginPage = () => {
 						</div>
 					</div>
 
-					<div className="bg-dark-error/30 text-dark-error mb-6 px-2 text-sm">
-						{error !== "" && <p>{error}</p>}
-					</div>
+					{error !== "" && (
+						<div className=" bg-destructive py-1 text-destructive-foreground mb-6 px-2 text-xs">
+							{<p> **{error}</p>}
+						</div>
+					)}
 
-					<button
-						type="submit"
-						disabled={isLoading}
-						className="bg-light-primary dark:bg-dark-primary hover:bg-light-secondary dark:hover:bg-dark-secondary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
-					>
+					<Button type="submit" disabled={isLoading}>
 						{isLoading ? " ... " : "Login"}
-					</button>
+					</Button>
 				</form>
 
 				<p className="mt-4 text-center">

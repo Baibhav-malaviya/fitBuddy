@@ -1,13 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import Calendar from "react-calendar";
+import { Calendar } from "@/components/ui/calendar";
+
 import { formatDate } from "@/utils/helpers";
 import data from "@/data/fakeWorkoutData.json";
 import ActivityCard from "@/components/ActivityCard";
 import PopupModal from "@/components/PopupModal";
 import ExerciseForm from "@/components/ExerciseForm";
 import { IWorkoutExercise } from "@/components/ExerciseForm";
+import { Button } from "@/components/ui/button";
 
 export default function Page() {
 	const [selectedDate, setSelectedDate] = React.useState(() => {
@@ -25,64 +27,11 @@ export default function Page() {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
-	// const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-	// 	e.preventDefault();
-	// 	// Handle form submission logic here
-	// 	console.log(formData);
-	// };
-
 	const handleSubmit = (exercises: IWorkoutExercise[]) => {
 		// Handle the submission logic here
 		console.log("Exercises for today: ", exercises);
 	};
 	const formContent = <ExerciseForm onSubmit={handleSubmit} />;
-
-	// const formContent = (
-	// 	<form onSubmit={handleSubmit}>
-	// 		<div className="mb-4">
-	// 			<label
-	// 				className="block text-light-text dark:text-dark-text font-bold mb-2"
-	// 				htmlFor="name"
-	// 			>
-	// 				Name
-	// 			</label>
-	// 			<input
-	// 				className="shadow appearance-none border rounded w-full py-2 px-3 text-light-text dark:text-dark-text leading-tight focus:outline-none focus:shadow-outline bg-light-bg dark:bg-dark-bg"
-	// 				id="name"
-	// 				type="text"
-	// 				name="name"
-	// 				value={formData.name}
-	// 				onChange={handleChange}
-	// 				required
-	// 			/>
-	// 		</div>
-	// 		<div className="mb-6">
-	// 			<label
-	// 				className="block text-light-text dark:text-dark-text font-bold mb-2"
-	// 				htmlFor="email"
-	// 			>
-	// 				Email
-	// 			</label>
-	// 			<input
-	// 				className="shadow appearance-none border rounded w-full py-2 px-3 text-light-text dark:text-dark-text leading-tight focus:outline-none focus:shadow-outline bg-light-bg dark:bg-dark-bg"
-	// 				id="email"
-	// 				type="email"
-	// 				name="email"
-	// 				value={formData.email}
-	// 				onChange={handleChange}
-	// 				required
-	// 			/>
-	// 		</div>
-	// 		<div className="flex items-center justify-between">
-	// 			<button
-	// 				className="bg-dark-primary dark:bg-dark-secondary hover:bg-light-primary dark:hover:bg-dark-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-	// 				type="submit"
-	// 			>
-	// 				Submit
-	// 			</button>
-	// 		</div>
-	// 	</form>
-	// );
 
 	const currentData = data.filter((d) => {
 		const dataDate = new Date(d.date);
@@ -109,28 +58,32 @@ export default function Page() {
 				<div className="font-semibold font-mono">
 					Total Calories Burnt: {totalCalories}
 				</div>
-				<button
-					onClick={() => setIsOpen(true)}
-					className="bg-light-primary dark:bg-dark-primary hover:bg-light-secondary dark:hover:bg-dark-secondary text-white font-bold py-2 px-4 rounded mr-4 transition duration-300 flex items-center"
-				>
-					<FaPlus className="mr-2" /> Add Workout
-				</button>
+
+				<Button variant={"secondary"} onClick={() => setIsOpen(true)}>
+					<FaPlus className="mr-2 font-light" /> Add Workout
+				</Button>
 			</div>
 
 			<div className="grid grid-cols-1 gap-2 md:grid-cols-12">
 				<div className=" md:col-span-4">
-					<div className="p-4 border px-8 w-full md:w-96 rounded-lg bg-light-bg dark:bg-dark-bg shadow-md">
+					<div className="p-4 border px-8 w-full md:w-96 rounded-lg bg-background text-foreground shadow-md">
 						<div className="flex items-baseline justify-between">
 							<h2 className="text-2xl font-semibold mb-4">Select Date</h2>
 							<h3 className="italic font-mono text-light-primary">
 								{formatDate(selectedDate)}
 							</h3>
 						</div>
-						<Calendar value={selectedDate} onChange={handleDateClick} />
+
+						<Calendar
+							mode="single"
+							selected={selectedDate}
+							onSelect={handleDateClick}
+							className="rounded-md border"
+						/>
 					</div>
 				</div>
 
-				<div className="grid grid-cols-1  lg:grid-cols-2 gap-4  md:col-span-8">
+				<div className="grid grid-cols-1   lg:grid-cols-2 gap-4  md:col-span-8">
 					{currentData.length > 0 ? (
 						currentData[0].exercises.map((el, idx) => (
 							<ActivityCard key={idx} data={el} isDarkMode={true} />

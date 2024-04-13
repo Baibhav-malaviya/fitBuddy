@@ -1,4 +1,5 @@
 import connectDB from "@/connectDB/connectDB";
+import { getDataFromToken } from "@/helper/getDataFromToken";
 import Workout from "@/models/workout.model";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -7,15 +8,27 @@ connectDB();
 export async function POST(req: NextRequest) {
 	try {
 		const reqBody = await req.json();
-		const { date, exercises } = reqBody;
+		const { exercises } = reqBody;
+
 		if (!exercises)
 			return NextResponse.json({
 				success: false,
 				message: "Exercises is required but not found",
 				status: 400,
 			});
-		// const userId = it will come from a function in the helper directory which takes req as input and extract the token from cookies and verify the token data from jwt
-		const createdWorkout = await Workout.create({ exercises }); //we have to pass userId, date is set default of current date
+
+		const userId = getDataFromToken(req);
+		if (!userId)
+			return NextResponse.json({
+				success: false,
+				message: "userId is required but not found",
+				status: 400,
+			});
+		console.log("userId: ", userId);
+		console.log("Exercises: ", exercises);
+
+		const newWorkout = new Workout({ userId, exercises }); //! date is set default of current date
+		const createdWorkout = await newWorkout.save();
 		return NextResponse.json({
 			success: true,
 			message: "Work out added successfully",
@@ -23,7 +36,7 @@ export async function POST(req: NextRequest) {
 			data: createdWorkout,
 		});
 	} catch (error) {
-		console.log("Error in workout POST");
+		console.log("Error in workout POST: ", error);
 		return NextResponse.json({
 			success: false,
 			message: "Error in workout POST",

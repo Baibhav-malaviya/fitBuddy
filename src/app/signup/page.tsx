@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import axios from "axios";
+import { Button } from "@/components/ui/button";
 
 const SignupPage = () => {
 	const [name, setName] = useState("");
@@ -29,18 +30,15 @@ const SignupPage = () => {
 	};
 
 	return (
-		<div className="flex justify-center items-center min-h-screen bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text">
-			<div className="bg-white dark:border-[1.5px] border-dark-text dark:bg-dark-bg rounded-lg shadow-md p-8 max-w-md w-full">
-				<h2 className="text-2xl font-bold mb-6 text-light-text dark:text-dark-text">
+		<div className="flex justify-center items-center min-h-screen  bg-background text-foreground">
+			<div className="bg-background dark:border-[1.5px] border-dark-text  rounded-lg shadow-md p-8 max-w-md w-full">
+				<h2 className="text-2xl font-bold mb-6 bg-background text-foreground">
 					Sign up for FitTracker
 				</h2>
 
 				<form onSubmit={handleSubmit}>
 					<div className="mb-4">
-						<label
-							htmlFor="name"
-							className="block text-gray-700 dark:text-gray-300 font-bold mb-2"
-						>
+						<label htmlFor="name" className="block  font-bold mb-2">
 							Name
 						</label>
 						<div className="relative">
@@ -52,7 +50,7 @@ const SignupPage = () => {
 								id="name"
 								value={name}
 								onChange={(e) => setName(e.target.value)}
-								className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:text-white dark:border-gray-600 pl-10"
+								className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-background dark:bg-gray-800 dark:text-white dark:border-gray-600 pl-10"
 								placeholder="Enter your name"
 								required
 							/>
@@ -105,13 +103,7 @@ const SignupPage = () => {
 						</div>
 					</div>
 
-					<button
-						type="submit"
-						disabled={isLoading}
-						className="bg-light-primary dark:bg-dark-primary hover:bg-light-secondary dark:hover:bg-dark-secondary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
-					>
-						{isLoading ? " ... " : "Sign up"}
-					</button>
+					<Button type="submit">{isLoading ? " ... " : "Sign up"}</Button>
 				</form>
 
 				<p className="mt-4 text-center">
