@@ -1,0 +1,37 @@
+[
+	{
+		"goalType": "weight-loss",
+		"targetValue": 10,
+		"additionalDetails": "Testing notes",
+		"targetCompletionDate": "2024-04-20T00:00:00.000Z",
+		"status": "active"
+	},
+	{
+		"goalType": "exercise",
+		"targetValue": 30,
+		"additionalDetails": "30 minutes of cardio per day",
+		"targetCompletionDate": "2024-04-20T00:00:00.000Z",
+		"status": "completed"
+	},
+	{
+		"goalType": "reading",
+		"targetValue": 20,
+		"additionalDetails": "Read 20 books this year",
+		"targetCompletionDate": "2024-12-31T00:00:00.000Z",
+		"status": "active"
+	},
+	{
+		"goalType": "Weight gain",
+		"targetValue": 10,
+		"additionalDetails": "I want to lose 10 keg",
+		"targetCompletionDate": "2024-09-01T00:00:00.000Z",
+		"status": "active"
+	},
+	{
+		"goalType": "Flexibility",
+		"targetValue": 100,
+		"additionalDetails": "Save $10,000 for emergency fund",
+		"targetCompletionDate": "2024-06-30T00:00:00.000Z",
+		"status": "completed"
+	}
+]

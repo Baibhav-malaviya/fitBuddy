@@ -1,13 +1,19 @@
 import connectDB from "@/connectDB/connectDB";
-import User from "@/models/user.model";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { getDataFromToken } from "@/helper/getDataFromToken";
 import { NextRequest, NextResponse } from "next/server";
 
 connectDB();
 
 export async function POST(req: NextRequest, res: NextResponse) {
+	const userId = getDataFromToken(req);
+	console.log("userId: ", userId);
 	try {
+		if (!userId)
+			return NextResponse.json({
+				success: false,
+				message: "User in not logged in",
+				status: 400,
+			});
 		const response = NextResponse.json({
 			success: true,
 			message: "User logged out successfully",
@@ -28,7 +34,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 			name: "token", // Provide the cookie name
 		};
 
-		response.cookies.delete(options);
+		response.cookies.delete("token");
 
 		return response;
 	} catch (error) {

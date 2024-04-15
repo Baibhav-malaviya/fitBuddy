@@ -14,20 +14,56 @@ import {
 	FaMoon,
 	FaSun,
 } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
+import { MdLogout } from "react-icons/md";
+
+import {
+	Sheet,
+	SheetContent,
+	SheetDescription,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger,
+} from "@/components/ui/sheet";
+
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import { Button } from "./ui/button";
+import { useTheme } from "next-themes";
+import axios from "axios";
+import { useToast } from "./ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const { setTheme } = useTheme();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const { toast } = useToast();
+	const router = useRouter();
 
-	const [isDark, setIsDark] = useState(true);
+	const handleLogout = async () => {
+		setIsLoading(true);
+		try {
+			const response = await axios.post("/api/users/logout");
 
-	const toggleTheme = () => {
-		const htmlElement = document.documentElement;
-
-		htmlElement.classList.remove(isDark ? "dark" : "light");
-		htmlElement.classList.add(!isDark ? "dark" : "light");
-
-		setIsDark(!isDark);
+			console.log("response:", response);
+			toast({
+				title: "Logged out successfully",
+				description: "Navigating to the signup/login page.",
+			});
+			setIsLoading(false);
+			router.push("/login");
+		} catch (error) {
+			setIsLoading(false);
+			console.log("Error in user login");
+		}
 	};
 
 	const toggleMenu = () => {
@@ -35,7 +71,7 @@ const Navbar = () => {
 	};
 
 	return (
-		<nav className="bg-light-bg dark:bg-dark-bg border-b-[1px] dark:border-dark-text border-light-text text-light-text dark:text-dark-text py-4 px-6 flex justify-between items-center">
+		<nav className="bg-background border-b-[1px] border:foreground text-foreground py-4 px-6 flex justify-between items-center">
 			<div className="flex items-center">
 				<Link href="/" className="font-bold text-pink-600 text-lg mr-4">
 					FitTracker
@@ -94,19 +130,87 @@ const Navbar = () => {
 					Reminders
 				</Button>
 
-				<Button>Set Goals</Button>
-				<Link
-					href="/profile"
-					className="flex items-center hover:text-light-primary dark:hover:text-dark-primary transition duration-300"
-				>
-					<FaUserCircle className="mr-2" />
+				<Link href={"setgoal"}>
+					<Button>Set Goals</Button>
 				</Link>
-				<button
+
+				{/* working on it */}
+				<Sheet>
+					<SheetTrigger>
+						<FaUserCircle />
+					</SheetTrigger>
+					<SheetContent>
+						<SheetHeader>
+							<SheetTitle>
+								<h2 className="text-2xl font-semibold ">Profile</h2>
+							</SheetTitle>
+							<SheetDescription>
+								<div className="flex flex-col py-5 items-center justify-center space-y-1">
+									<div className=" relative">
+										<FaUserCircle size={70} />
+										<Button
+											size={"icon"}
+											className="absolute -right-1 -bottom-1"
+										>
+											<Link href={"/profile"}>
+												<MdEdit
+													size={20}
+													// className="absolute right-1 bottom-[2px]"
+												/>
+											</Link>
+										</Button>
+									</div>
+									<h3 className="text-xl font-semibold">Your name</h3>
+									<p>+91{maskPhoneNumber("7323913924")}</p>
+								</div>
+
+								{/* dropdown for appearance and logout */}
+								<div className="flex justify-around mt-5 px-4">
+									<DropdownMenu>
+										<DropdownMenuTrigger>
+											{" "}
+											<Button variant={"outline"}>Appearance</Button>
+										</DropdownMenuTrigger>
+
+										<DropdownMenuContent>
+											<DropdownMenuItem onClick={() => setTheme("light")}>
+												Light
+											</DropdownMenuItem>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem onClick={() => setTheme("dark")}>
+												Dark
+											</DropdownMenuItem>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem onClick={() => setTheme("system")}>
+												System
+											</DropdownMenuItem>
+										</DropdownMenuContent>
+									</DropdownMenu>
+									<div>
+										<Button
+											variant={"outline"}
+											onClick={handleLogout}
+											disabled={isLoading}
+											className={`flex items-center space-x-1 ${
+												isLoading && "opacity-85"
+											}`}
+										>
+											<MdLogout />
+											<span>Logout</span>
+										</Button>
+									</div>
+								</div>
+							</SheetDescription>
+						</SheetHeader>
+					</SheetContent>
+				</Sheet>
+
+				{/* <button
 					onClick={toggleTheme}
 					className="p-2 shadow-md dark:shadow-md dark:shadow-gray-700 rounded-full "
 				>
 					{isDark ? <FaSun /> : <FaMoon />}
-				</button>
+				</button> */}
 			</div>
 
 			<div className="md:hidden">
@@ -121,7 +225,7 @@ const Navbar = () => {
 					)}
 				</button>
 			</div>
-
+			{/* for mobile responsive */}
 			<div
 				className={`md:hidden ${
 					isOpen ? "block" : "hidden"
@@ -173,14 +277,78 @@ const Navbar = () => {
 						Reminders
 					</Button>
 					<Button>Set Goals</Button>
-					<Link
-						href="/profile"
-						className="flex items-center py-2 hover:text-light-primary dark:hover:text-dark-primary transition duration-300"
-					>
-						<FaUserCircle className="mr-2" />
-						Profile
-					</Link>
-					<div>
+					<Sheet>
+						<SheetTrigger>
+							<FaUserCircle />
+						</SheetTrigger>
+						<SheetContent>
+							<SheetHeader>
+								<SheetTitle>
+									<h2 className="text-2xl font-semibold ">Profile</h2>
+								</SheetTitle>
+								<SheetDescription>
+									<div className="flex flex-col py-5 items-center justify-center space-y-1">
+										<div className=" relative">
+											<FaUserCircle size={70} />
+											<Button
+												size={"icon"}
+												className="absolute -right-1 -bottom-1"
+											>
+												<Link href={"/profile"}>
+													<MdEdit
+														size={20}
+														// className="absolute right-1 bottom-[2px]"
+													/>
+												</Link>
+											</Button>
+										</div>
+										<h3 className="text-xl font-semibold">Your name</h3>
+										<p>+91{maskPhoneNumber("7323913924")}</p>
+									</div>
+									{/* dropdown for appearance */}
+									<div className="flex justify-around space-x-1 mt-5 px-2">
+										<DropdownMenu>
+											<DropdownMenuTrigger>
+												{" "}
+												<Button variant={"outline"} size={"sm"}>
+													Appearance
+												</Button>
+											</DropdownMenuTrigger>
+
+											<DropdownMenuContent>
+												<DropdownMenuItem onClick={() => setTheme("light")}>
+													Light
+												</DropdownMenuItem>
+												<DropdownMenuSeparator />
+												<DropdownMenuItem onClick={() => setTheme("dark")}>
+													Dark
+												</DropdownMenuItem>
+												<DropdownMenuSeparator />
+												<DropdownMenuItem onClick={() => setTheme("system")}>
+													System
+												</DropdownMenuItem>
+											</DropdownMenuContent>
+										</DropdownMenu>
+										<div>
+											<Button
+												variant={"outline"}
+												size={"sm"}
+												onClick={handleLogout}
+												disabled={isLoading}
+												className={`flex items-center space-x-1 ${
+													isLoading && "opacity-85"
+												}`}
+											>
+												<MdLogout />
+												<span>Logout</span>
+											</Button>
+										</div>
+									</div>
+								</SheetDescription>
+							</SheetHeader>
+						</SheetContent>
+					</Sheet>
+					{/* <div>
 						<button
 							onClick={toggleTheme}
 							className="p-2 shadow-md dark:shadow-md dark:shadow-gray-700 rounded-full "
@@ -188,7 +356,7 @@ const Navbar = () => {
 							{isDark ? <FaSun /> : <FaMoon />}
 						</button>
 						<span className="ml-2">Theme</span>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</nav>
@@ -196,3 +364,22 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+function maskPhoneNumber(phoneNumber: string): string {
+	// Check if phoneNumber is a valid phone number (you may need more robust validation)
+	if (!phoneNumber || phoneNumber.length < 6) {
+		return "Invalid phone number";
+	}
+
+	// Extract first digit and last four digits
+	const firstDigit = phoneNumber[0];
+	const lastFourDigits = phoneNumber.slice(-4);
+
+	// Replace middle digits with *
+	const maskedMiddle = "*".repeat(phoneNumber.length - 5);
+
+	// Concatenate first digit, masked middle, and last four digits
+	const maskedNumber = `${firstDigit}${maskedMiddle}${lastFourDigits}`;
+
+	return maskedNumber;
+}

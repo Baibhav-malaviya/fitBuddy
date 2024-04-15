@@ -50,9 +50,12 @@ export async function POST(req: NextRequest) {
 			expiresIn: "1d",
 		});
 
+		const currUser = await User.findById(user._id).select("-password");
+
 		const response = NextResponse.json({
 			success: true,
 			message: "user logged in successfully",
+			data: currUser,
 			status: 200,
 		});
 
@@ -69,7 +72,7 @@ export async function POST(req: NextRequest) {
 		};
 
 		response.cookies.set("token", token, options);
-		await sendLoginEmail(user.email);
+		// await sendLoginEmail(user.email); //todo we will enable it later
 		return response;
 	} catch (error) {
 		console.log("Error in login: ", error);

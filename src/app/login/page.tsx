@@ -17,6 +17,7 @@ const LoginPage = () => {
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
+		setIsLoading(true);
 		try {
 			setIsLoading(true);
 			const response = await axios.post("/api/users/login", {
@@ -34,6 +35,7 @@ const LoginPage = () => {
 			});
 			router.push("/");
 		} catch (error: any) {
+			setIsLoading(false);
 			let errorMessage;
 			if (error.response) {
 				// Server responded with an error status code (e.g., 404, 500)
