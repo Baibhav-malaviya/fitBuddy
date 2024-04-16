@@ -10,12 +10,15 @@ interface IUser extends Document {
 	weight?: number;
 	height?: number;
 	gender?: string;
-	avatar: string;
+	avatar?: string;
 	resetPasswordToken?: string;
 	resetPasswordExpires?: Date;
+	emailVerificationCode?: string;
+	emailVerificationCodeExpires?: Date;
 	verificationToken?: string;
 	verificationTokenExpires?: Date;
 	isVerified: boolean;
+	isEmailVerified: boolean;
 	createdAt: Date;
 	updatedAt: Date;
 	isCorrectPassword: (candidatePassword: string) => Promise<boolean>;
@@ -33,6 +36,9 @@ const userSchema = new Schema<IUser>(
 		gender: { type: String, enum: ["male", "female", "other"] },
 		resetPasswordToken: String,
 		resetPasswordExpires: Date,
+		isEmailVerified: { type: Boolean, default: false },
+		emailVerificationCode: String,
+		emailVerificationCodeExpires: Date,
 		verificationToken: String,
 		verificationTokenExpires: Date,
 		isVerified: {

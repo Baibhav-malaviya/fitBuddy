@@ -4,16 +4,19 @@ import Link from "next/link";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
+import PopupModal from "@/components/PopupModal";
+import OtpForm from "@/components/OtpForm";
 
 const SignupPage = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
+	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [error, setError] = useState("");
 	const [password, setPassword] = useState("");
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
-		// Handle signup logic here
 		setIsLoading(true);
 		try {
 			const response = await axios.post("/api/users/signup", {
@@ -21,11 +24,26 @@ const SignupPage = () => {
 				email,
 				password,
 			});
+			if (response.data.success === false) {
+				throw new Error(response.data.message);
+			}
 			setIsLoading(false);
+			setIsOpen(true);
 			console.log("response: ", response);
-		} catch (error) {
-			console.log("Error in signing up");
+		} catch (error: any) {
 			setIsLoading(false);
+			let errorMessage;
+			if (error.response) {
+				// Server responded with an error status code (e.g., 404, 500)
+				errorMessage = `Server Error: ${error.response.status}`;
+			} else if (error.request) {
+				// Request was made but no response received
+				errorMessage = "No response from server";
+			} else {
+				// Something else happened while setting up the request
+				errorMessage = `${error.message}`;
+			}
+			setError(errorMessage);
 		}
 	};
 
@@ -103,6 +121,12 @@ const SignupPage = () => {
 						</div>
 					</div>
 
+					{error !== "" && (
+						<div className=" bg-destructive py-1 text-destructive-foreground mb-6 px-2 text-xs">
+							{<p> **{error}</p>}
+						</div>
+					)}
+
 					<Button type="submit">{isLoading ? " ... " : "Sign up"}</Button>
 				</form>
 
@@ -116,6 +140,12 @@ const SignupPage = () => {
 					</Link>
 				</p>
 			</div>
+			{/* //todo here we have to do "PopupModal" */}
+			<PopupModal
+				isOpen={isOpen}
+				setIsOpen={setIsLoading}
+				content={<OtpForm email={email} />}
+			/>
 		</div>
 	);
 };

@@ -14,13 +14,13 @@ const PopupModal: React.FC<PopupModalProps> = ({
 }) => {
 	return (
 		<div
-			className={`fixed inset-0 z-50 flex justify-center ${
+			className={`fixed  inset-0 z-50  flex items-center justify-center ${
 				isOpen ? "visible" : "invisible"
 			}`}
 		>
-			<div className="absolute inset-0 bg-background opacity-70"></div>
+			<div className="absolute inset-0 bg-black opacity-70"></div>
 			<div
-				className={`relative overflow-y-scroll rounded-lg p-8 dark:border-[1.5px] shadow-md   min-w-full sm:min-w-96 w-auto bg-background text-foreground`}
+				className={`relative overflow-y-scroll h-auto rounded-lg p-8 dark:border-[1.5px] shadow-md   min-w-full sm:min-w-96 w-auto bg-background text-foreground`}
 			>
 				<Button
 					variant={"destructive"}
