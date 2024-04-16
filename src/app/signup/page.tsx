@@ -127,7 +127,22 @@ const SignupPage = () => {
 						</div>
 					)}
 
-					<Button type="submit">{isLoading ? " ... " : "Sign up"}</Button>
+					<div>
+						<Button
+							type="submit"
+							disabled={isLoading}
+							className={`${isLoading ? "cursor-not-allowed" : ""}`}
+						>
+							{isLoading ? (
+								<div className="flex items-center justify-center">
+									<span className="mr-2 animate-spin">&#8635;</span>
+									Sign...
+								</div>
+							) : (
+								"SignUp"
+							)}
+						</Button>
+					</div>
 				</form>
 
 				<p className="mt-4 text-center">
@@ -141,11 +156,13 @@ const SignupPage = () => {
 				</p>
 			</div>
 			{/* //todo here we have to do "PopupModal" */}
-			<PopupModal
-				isOpen={isOpen}
-				setIsOpen={setIsLoading}
-				content={<OtpForm email={email} />}
-			/>
+			{email && (
+				<PopupModal
+					isOpen={isOpen}
+					setIsOpen={setIsOpen}
+					content={<OtpForm email={email} />}
+				/>
+			)}
 		</div>
 	);
 };

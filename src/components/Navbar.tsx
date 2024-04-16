@@ -11,8 +11,6 @@ import {
 	FaBell,
 	FaBars,
 	FaTimes,
-	FaMoon,
-	FaSun,
 } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
@@ -30,10 +28,10 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { Button } from "./ui/button";
 import { useTheme } from "next-themes";
@@ -72,6 +70,7 @@ const Navbar = () => {
 
 	return (
 		<nav className="bg-background border-b-[1px] border:foreground text-foreground py-4 px-6 flex justify-between items-center">
+			{/* //? for logo*/}
 			<div className="flex items-center">
 				<Link href="/" className="font-bold text-pink-600 text-lg mr-4">
 					FitTracker
@@ -137,7 +136,11 @@ const Navbar = () => {
 				{/* working on it */}
 				<Sheet>
 					<SheetTrigger>
-						<FaUserCircle />
+						{/* //todo avatar */}
+						<Avatar>
+							<AvatarImage src="https://github.com/shadcn.png" />
+							<AvatarFallback>CN</AvatarFallback>
+						</Avatar>
 					</SheetTrigger>
 					<SheetContent>
 						<SheetHeader>

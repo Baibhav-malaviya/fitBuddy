@@ -115,8 +115,19 @@ const LoginPage = () => {
 						</div>
 					)}
 
-					<Button type="submit" disabled={isLoading}>
-						{isLoading ? " ... " : "Login"}
+					<Button
+						type="submit"
+						disabled={isLoading}
+						className={`${isLoading ? "cursor-not-allowed" : ""}`}
+					>
+						{isLoading ? (
+							<div className="flex items-center justify-center">
+								<span className="mr-2 animate-spin">&#8635;</span>
+								Logging
+							</div>
+						) : (
+							"Login"
+						)}
 					</Button>
 				</form>
 

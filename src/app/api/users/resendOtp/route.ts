@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
 				success: true,
 				message: "Otp sent successfully",
 			},
-			{ status: 500 }
+			{ status: 200 }
 		);
 	} catch (error) {
 		console.log("Error in resend otp route");

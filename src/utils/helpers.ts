@@ -50,3 +50,7 @@ export const calculateBMR = (
 
 	return parseFloat(bmr.toFixed(2));
 };
+
+export function delay(ms: number, callback: () => void) {
+	setTimeout(callback, ms);
+}
