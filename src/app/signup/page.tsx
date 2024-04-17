@@ -6,13 +6,24 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import PopupModal from "@/components/PopupModal";
 import OtpForm from "@/components/OtpForm";
+import {
+	passwordSchema,
+	usernameSchema,
+	emailSchema,
+} from "@/schema/signupSchema";
 
 const SignupPage = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [error, setError] = useState("");
-	const [password, setPassword] = useState("");
+	const [validationError, setValidationError] = useState({
+		password: "",
+		username: "",
+		email: "",
+	});
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const handleSubmit = async (e: any) => {
@@ -49,12 +60,13 @@ const SignupPage = () => {
 
 	return (
 		<div className="flex justify-center items-center min-h-screen  bg-background text-foreground">
-			<div className="bg-background dark:border-[1.5px] border-dark-text  rounded-lg shadow-md p-8 max-w-md w-full">
+			<div className="bg-background dark:border-[1.5px] border-dark-text  rounded-lg shadow-md p-8 max-w-md  w-full">
 				<h2 className="text-2xl font-bold mb-6 bg-background text-foreground">
-					Sign up for FitTracker
+					Sign up for Buddy
 				</h2>
 
 				<form onSubmit={handleSubmit}>
+					{/* //! name container */}
 					<div className="mb-4">
 						<label htmlFor="name" className="block  font-bold mb-2">
 							Name
@@ -67,14 +79,42 @@ const SignupPage = () => {
 								type="text"
 								id="name"
 								value={name}
-								onChange={(e) => setName(e.target.value)}
+								onChange={(e) =>
+									setName(() => {
+										const validationResult = usernameSchema.safeParse(
+											e.target.value
+										);
+										if (!validationResult.success) {
+											setValidationError({
+												...validationError,
+												username:
+													validationResult.error.flatten().formErrors[0],
+											});
+											console.log(
+												"username: validation error",
+												validationResult.error.flatten().formErrors
+											);
+										} else {
+											setValidationError({
+												...validationError,
+												username: "",
+											});
+										}
+										return e.target.value;
+									})
+								}
 								className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-background dark:bg-gray-800 dark:text-white dark:border-gray-600 pl-10"
 								placeholder="Enter your name"
 								required
 							/>
 						</div>
+						{name.length > 0 && (
+							<div className=" text-yellow-300 italic my-2 text-xs">
+								{<p> {validationError.username}</p>}
+							</div>
+						)}
 					</div>
-
+					{/* //! email container */}
 					<div className="mb-4">
 						<label
 							htmlFor="email"
@@ -90,14 +130,41 @@ const SignupPage = () => {
 								type="email"
 								id="email"
 								value={email}
-								onChange={(e) => setEmail(e.target.value)}
+								onChange={(e) =>
+									setEmail(() => {
+										const validationResult = emailSchema.safeParse(
+											e.target.value
+										);
+										if (!validationResult.success) {
+											setValidationError({
+												...validationError,
+												email: validationResult.error.flatten().formErrors[0],
+											});
+											console.log(
+												"Email validation: ",
+												validationResult.error.flatten().formErrors[0]
+											);
+										} else {
+											setValidationError({
+												...validationError,
+												email: "",
+											});
+										}
+										return e.target.value;
+									})
+								}
 								className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:text-white dark:border-gray-600 pl-10"
 								placeholder="Enter your email"
 								required
 							/>
 						</div>
+						{email.length > 0 && (
+							<div className=" text-yellow-300 italic my-2 text-xs">
+								{<p> {validationError.email}</p>}
+							</div>
+						)}
 					</div>
-
+					{/* //! password container */}
 					<div className="mb-6">
 						<label
 							htmlFor="password"
@@ -113,12 +180,35 @@ const SignupPage = () => {
 								type="password"
 								id="password"
 								value={password}
-								onChange={(e) => setPassword(e.target.value)}
+								onChange={(e) =>
+									setPassword(() => {
+										const validationResult = passwordSchema.safeParse(
+											e.target.value
+										);
+
+										if (!validationResult.success) {
+											setValidationError({
+												...validationError,
+												password:
+													validationResult.error.flatten().formErrors[0],
+											});
+										} else {
+											setValidationError({ ...validationError, password: "" });
+										}
+
+										return e.target.value;
+									})
+								}
 								className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:text-white dark:border-gray-600 pl-10"
 								placeholder="Enter your password"
 								required
 							/>
 						</div>
+						{password.length > 0 && (
+							<div className=" text-yellow-300 italic my-2 text-xs">
+								{<p> {validationError.password}</p>}
+							</div>
+						)}
 					</div>
 
 					{error !== "" && (
@@ -130,7 +220,11 @@ const SignupPage = () => {
 					<div>
 						<Button
 							type="submit"
-							disabled={isLoading}
+							disabled={
+								isLoading ||
+								validationError.password !== "" ||
+								validationError.password !== ""
+							}
 							className={`${isLoading ? "cursor-not-allowed" : ""}`}
 						>
 							{isLoading ? (

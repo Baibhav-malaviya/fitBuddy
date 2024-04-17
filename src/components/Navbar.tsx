@@ -282,7 +282,10 @@ const Navbar = () => {
 					<Button>Set Goals</Button>
 					<Sheet>
 						<SheetTrigger>
-							<FaUserCircle />
+							<Avatar>
+								<AvatarImage src="https://github.com/shadcn.png" />
+								<AvatarFallback>CN</AvatarFallback>
+							</Avatar>
 						</SheetTrigger>
 						<SheetContent>
 							<SheetHeader>
@@ -351,15 +354,6 @@ const Navbar = () => {
 							</SheetHeader>
 						</SheetContent>
 					</Sheet>
-					{/* <div>
-						<button
-							onClick={toggleTheme}
-							className="p-2 shadow-md dark:shadow-md dark:shadow-gray-700 rounded-full "
-						>
-							{isDark ? <FaSun /> : <FaMoon />}
-						</button>
-						<span className="ml-2">Theme</span>
-					</div> */}
 				</div>
 			</div>
 		</nav>
