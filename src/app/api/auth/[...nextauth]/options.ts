@@ -1,4 +1,4 @@
-import connectDB from "@/connectDB/connectDB";
+import connectDB from "../../../../connectDB/connectDB";
 import User from "@/models/user.model";
 import type { NextAuthOptions } from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";

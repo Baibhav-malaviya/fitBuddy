@@ -1,4 +1,4 @@
-import connectDB from "@/connectDB/connectDB";
+import connectDB from "../../../../connectDB/connectDB";
 import { sendLoginEmail } from "@/helper/mailer";
 import User from "@/models/user.model";
 import jwt from "jsonwebtoken";
