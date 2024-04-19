@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 import {
 	FaUserCircle,
 	FaHome,
@@ -40,6 +41,7 @@ import { useTheme } from "next-themes";
 import axios from "axios";
 import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -47,13 +49,17 @@ const Navbar = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const { toast } = useToast();
 	const router = useRouter();
+	const { data: session } = useSession();
+
+	console.log("SESSION DATA IN NAVBAR: ", session);
 
 	const handleLogout = async () => {
 		setIsLoading(true);
 		try {
-			const response = await axios.post("/api/users/logout");
+			// const response = await axios.post("/api/users/logout");
+			const response = await signOut({ redirect: false });
 
-			console.log("response:", response);
+			console.log("response in signOut NEXT-AUTH: ", response);
 			toast({
 				title: "Logged out successfully",
 				description: "Navigating to the signup/login page.",
