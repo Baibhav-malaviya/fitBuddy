@@ -1,4 +1,4 @@
-import connectDB from "@/connectDB/connectDB";
+import connectDB from "../../../../../connectDb/connectDB";
 import { sendPasswordResetSuccessEmail } from "@/helper/mailer";
 import User from "@/models/user.model";
 import bcrypt from "bcrypt";

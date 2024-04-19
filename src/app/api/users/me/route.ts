@@ -1,4 +1,4 @@
-import connectDB from "../../../../connectDB/connectDB";
+import connectDB from "../../../../../connectDb/connectDB";
 import { getDataFromToken } from "@/helper/getDataFromToken";
 import User from "@/models/user.model";
 import { NextRequest, NextResponse } from "next/server";

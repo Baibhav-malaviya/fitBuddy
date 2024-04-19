@@ -1,4 +1,4 @@
-import connectDB from "@/connectDB/connectDB";
+import connectDB from "../../../../../connectDb/connectDB";
 // import Goal, { IGoal } from "../models/Goal.model";
 import Goal, { IGoal } from "@/models/goal.model";
 import { getDataFromToken } from "@/helper/getDataFromToken";

@@ -1,4 +1,4 @@
-import connectDB from "../../../../connectDB/connectDB";
+import connectDB from "../../../../../connectDb/connectDB";
 import sendEmail from "@/helper/mailer";
 import { NextRequest, NextResponse } from "next/server";
 import { generateVerificationCode } from "../signup/route";

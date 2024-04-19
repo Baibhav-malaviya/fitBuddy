@@ -1,4 +1,4 @@
-import connectDB from "@/connectDB/connectDB";
+import connectDB from "../../connectDb/connectDB";
 import { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 

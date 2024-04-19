@@ -1,4 +1,4 @@
-import connectDB from "../../../../connectDB/connectDB";
+import connectDB from "../../../../../connectDb/connectDB";
 import { sendForgotPasswordEmail } from "@/helper/mailer";
 import { NextRequest, NextResponse } from "next/server";
 

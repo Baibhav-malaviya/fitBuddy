@@ -1,4 +1,4 @@
-import connectDB from "@/connectDB/connectDB";
+import connectDB from "../../../../../connectDb/connectDB";
 import User from "@/models/user.model";
 import sendEmail from "@/helper/mailer";
 import { NextRequest, NextResponse } from "next/server";
