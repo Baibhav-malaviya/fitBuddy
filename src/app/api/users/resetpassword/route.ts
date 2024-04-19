@@ -2,9 +2,8 @@ import connectDB from "@/connectDB/connectDB";
 import { sendForgotPasswordEmail } from "@/helper/mailer";
 import { NextRequest, NextResponse } from "next/server";
 
-connectDB();
-
 export async function POST(req: NextRequest) {
+	await connectDB();
 	try {
 		const reqBody = await req.json();
 		const { email } = reqBody;

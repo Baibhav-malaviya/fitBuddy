@@ -2,9 +2,8 @@ import connectDB from "@/connectDB/connectDB";
 import { getDataFromToken } from "@/helper/getDataFromToken";
 import { NextRequest, NextResponse } from "next/server";
 
-connectDB();
-
 export async function POST(req: NextRequest, res: NextResponse) {
+	await connectDB();
 	const userId = getDataFromToken(req);
 	console.log("userId: ", userId);
 	try {
