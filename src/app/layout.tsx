@@ -6,6 +6,9 @@ import Navbar from "@/components/Navbar";
 import Main from "@/components/Main";
 import NavbarBeforeAuth from "@/components/NavbarBeforeAuth";
 import { Toaster } from "@/components/ui/toaster";
+import AuthProvider from "@/app/context/AuthProvider";
+import { getServerSession } from "next-auth";
+import NavbarComponent from "@/components/NavbarComponent";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,7 +18,7 @@ export const metadata: Metadata = {
 		"This is a work-out tracker app, it will also guide you to achieve your fitness goal by tracking your daily workout and by suggesting you a good diet.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
@@ -29,10 +32,12 @@ export default function RootLayout({
 					enableSystem
 					disableTransitionOnChange
 				>
-					<Navbar />
-					<NavbarBeforeAuth />
-					<Main>{children}</Main>
-					<Toaster />
+					<AuthProvider>
+						{/* {session ? <Navbar /> : <NavbarBeforeAuth />} */}
+						<NavbarComponent />
+						<Main>{children}</Main>
+						<Toaster />
+					</AuthProvider>
 				</ThemeProvider>
 			</body>
 		</html>
