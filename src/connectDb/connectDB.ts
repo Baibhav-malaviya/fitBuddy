@@ -9,7 +9,7 @@ interface ConnectionOptions extends ConnectOptions {
 
 let cachedConnection: mongoose.Connection | null = null;
 
-async function connectDB() {
+export default async function connectDB() {
 	if (cachedConnection) {
 		return cachedConnection;
 	}
@@ -40,5 +40,3 @@ async function connectDB() {
 
 	return cachedConnection;
 }
-
-export default connectDB;
