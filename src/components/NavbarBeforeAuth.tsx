@@ -9,7 +9,7 @@ const Navbar = () => {
 		<nav className="bg-light-bg dark:bg-dark-bg border-b-[1px] dark:border-dark-text border-light-text text-light-text dark:text-dark-text py-4 px-6 flex justify-between items-center">
 			<div className="flex items-center">
 				<Link href="/" className="font-bold text-pink-600 text-lg mr-4">
-					FitTracker
+					FitBuddy
 				</Link>
 				<div className="hidden md:flex space-x-4">
 					<Link

@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { Button } from "./ui/button";
 
 interface PopupModalProps {
@@ -12,15 +12,24 @@ const PopupModal: React.FC<PopupModalProps> = ({
 	setIsOpen,
 	content,
 }) => {
+	useEffect(() => {
+		// Add the overflow-hidden class to the body element when the modal is open
+		if (isOpen) {
+			document.body.classList.add("overflow-hidden");
+		} else {
+			// Remove the overflow-hidden class from the body element when the modal is closed
+			document.body.classList.remove("overflow-hidden");
+		}
+	}, [isOpen]);
 	return (
 		<div
-			className={`fixed  inset-0 z-50  flex items-center justify-center ${
+			className={`fixed  inset-0 z-50  flex items-center justify-center px-1 sm:px-0 ${
 				isOpen ? "visible" : "invisible"
 			}`}
 		>
 			<div className="absolute inset-0 bg-black opacity-70"></div>
 			<div
-				className={`relative overflow-y-scroll h-auto rounded-lg p-8 dark:border-[1.5px] shadow-md   min-w-full sm:min-w-96 w-auto bg-background text-foreground`}
+				className={`relative overflow-y-scroll h-auto rounded-lg p-8 dark:border-[1.5px] shadow-md   min-w-full sm:min-w-96 w-auto bg-background text-foreground `}
 			>
 				<Button
 					variant={"destructive"}

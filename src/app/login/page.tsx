@@ -2,9 +2,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { FaEnvelope, FaLock } from "react-icons/fa";
-import { signIn } from "next-auth/react";
-import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -16,6 +15,7 @@ const LoginPage = () => {
 	const router = useRouter();
 	const { toast } = useToast();
 
+	//! login with credential handler / form submit handler
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 		setIsLoading(true);
@@ -34,7 +34,7 @@ const LoginPage = () => {
 
 			setIsLoading(false);
 			toast({
-				title: "Logged in successfully",
+				title: "Logged in with credentials, successfully",
 				description: "Navigating to '/' route ...",
 			});
 			router.push("/");
@@ -55,10 +55,12 @@ const LoginPage = () => {
 		}
 	};
 
+	//! login with google handler
 	const handleGoogleSignIn = async () => {
 		try {
 			const response = await signIn("google", {
 				redirect: false,
+				callbackUrl: "/",
 			});
 
 			if (response?.error) {
@@ -67,10 +69,9 @@ const LoginPage = () => {
 
 			setIsLoading(false);
 			toast({
-				title: "Logged in successfully",
+				title: "Logged in with Google, successfully",
 				description: "Navigating to '/' route ...",
 			});
-			router.push("/");
 		} catch (error) {
 			let errorMessage;
 			if (error instanceof Error) {
@@ -88,6 +89,7 @@ const LoginPage = () => {
 				<h2 className="text-2xl font-bold mb-6 t">Login to FitTracker</h2>
 
 				<form onSubmit={handleSubmit}>
+					{/** //!Email input field */}
 					<div className="mb-4">
 						<label
 							htmlFor="email"
@@ -114,6 +116,7 @@ const LoginPage = () => {
 						</div>
 					</div>
 
+					{/* //!Password input field */}
 					<div className="mb-6">
 						<label
 							htmlFor="password"
@@ -141,11 +144,12 @@ const LoginPage = () => {
 					</div>
 
 					{error !== "" && (
-						<div className=" bg-destructive py-1 text-destructive-foreground mb-6 px-2 text-xs">
+						<div className="py-1 text-destructive mb-6 px-2 text-xs">
 							{<p> **{error}</p>}
 						</div>
 					)}
 
+					{/* //! Credential login Submit button */}
 					<div className="">
 						<Button
 							type="submit"
@@ -163,6 +167,7 @@ const LoginPage = () => {
 						</Button>
 					</div>
 				</form>
+
 				{/* //!Google login */}
 				<div className="w-ful mt-6">
 					<Button
@@ -202,7 +207,7 @@ const LoginPage = () => {
 					Don&apos;t have an account?{" "}
 					<Link
 						href="/signup"
-						className="text-light-primary dark:text-dark-primary hover:underline"
+						className="text-foreground font-semibold hover:underline"
 					>
 						Register
 					</Link>

@@ -1,5 +1,10 @@
+import UnderDevelopment from "@/components/UnderDevelopment";
 import React from "react";
 
 export default function page() {
-	return <div>This is nutrition page.</div>;
+	return (
+		<div>
+			<UnderDevelopment />
+		</div>
+	);
 }

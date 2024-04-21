@@ -8,6 +8,27 @@ const options: NextAuthOptions = {
 	session: {
 		strategy: "jwt",
 	},
+	callbacks: {
+		async jwt({ token, user }) {
+			console.log("User in the callbacks: ", user);
+			if (user) {
+				token._id = user._id?.toString() || user.id;
+				token.email = user.email;
+				token.isVerified = user.isVerified || true;
+				token.name = user.name;
+			}
+			return token;
+		},
+		async session({ session, token }) {
+			if (token) {
+				session.user._id = token._id as string | undefined;
+				session.user.isVerified = token.isVerified as boolean | undefined;
+				session.user.name = token.name as string | undefined;
+				session.user.email = token.email as string | undefined;
+			}
+			return session;
+		},
+	},
 	providers: [
 		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID!,

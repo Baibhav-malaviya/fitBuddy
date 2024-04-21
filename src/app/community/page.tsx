@@ -1,5 +1,10 @@
 import React from "react";
+import UnderDevelopment from "@/components/UnderDevelopment";
 
 export default function page() {
-	return <div>This is community page</div>;
+	return (
+		<div>
+			<UnderDevelopment />
+		</div>
+	);
 }

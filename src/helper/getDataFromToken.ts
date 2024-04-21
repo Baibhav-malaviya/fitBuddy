@@ -1,14 +1,14 @@
 import connectDB from "../../connectDb/connectDB";
 import { NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
+import { getSession } from "next-auth/react";
 
 connectDB();
 
-export const getDataFromToken = (req: NextRequest) => {
+export const getDataFromToken = async (req: NextRequest) => {
 	try {
-		const token = req.cookies.get("token")?.value || "";
-		const tokenData: any = jwt.verify(token, process.env.JWT_SECRET!);
-		return tokenData.id;
+		const session = await getSession();
+		const userId = session?.user._id;
+		return userId;
 	} catch (error) {
 		console.log("Error in getting token data");
 		return;
