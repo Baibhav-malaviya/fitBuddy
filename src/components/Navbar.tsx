@@ -81,7 +81,7 @@ const Navbar = () => {
 				{/* //! For desktop */}
 				<div className="hidden md:flex space-x-4">
 					<Link
-						href="/dashboard"
+						href="/"
 						className="flex relative hover:bg-yellow-500/20 group p-[3px] px-2 md:py-2 lg:py-[3px] rounded-md items-center hover:text-yellow-500 dark:hover:text-yellow-500 transition duration-300"
 					>
 						<FaHome className="mr-2 text-yellow-500" />
@@ -230,7 +230,7 @@ const Navbar = () => {
 			>
 				<div className="flex flex-col mt-4 space-y-2">
 					<Link
-						href="/dashboard"
+						href="/"
 						className="flex items-center hover:bg-yellow-500/20 p-[3px] px-2 rounded hover:text-yellow-500 dark:hover:text-yellow-500 transition duration-300"
 					>
 						<FaHome className="mr-2 text-yellow-500" />

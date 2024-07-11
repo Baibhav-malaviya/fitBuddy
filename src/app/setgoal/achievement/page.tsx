@@ -85,12 +85,16 @@
 
 // export default SetGoalPage;
 
+import UnderDevelopment from "@/components/UnderDevelopment";
 import React from "react";
 
 export default function Achievement() {
 	return (
-		<div className="w-full flex items-center justify-center text-4xl font-extrabold p-2 text-primary">
-			You haven&apos;t won any Badges for Now
+		<div>
+			<UnderDevelopment />
+			{/* <div className="w-full flex items-center justify-center text-4xl font-extrabold p-2 text-primary">
+				You haven&apos;t won any Badges for Now
+			</div> */}
 		</div>
 	);
 }

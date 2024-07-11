@@ -35,7 +35,7 @@ export default function CurrGoal() {
 
 	return (
 		<div className="w-full flex items-center justify-center flex-col ">
-			<p className="text-4xl font-extrabold p-2 text-primary">
+			<p className="text-2xl font-extrabold p-2 text-primary bg-muted rounded-md my-2">
 				Here all the goal will come on going as well as completed one.
 			</p>
 			<div className="mb-4 flex space-x-2 justify-between">

@@ -29,7 +29,7 @@ const PopupModal: React.FC<PopupModalProps> = ({
 		>
 			<div className="absolute inset-0 bg-black opacity-70"></div>
 			<div
-				className={`relative overflow-y-scroll h-auto rounded-lg p-8 dark:border-[1.5px] shadow-md   min-w-full sm:min-w-96 w-auto bg-background text-foreground `}
+				className={`relative overflow-y-scroll h-auto max-h-screen rounded-lg p-8 dark:border-[1.5px] shadow-md   min-w-full sm:min-w-96 w-auto bg-background text-foreground `}
 			>
 				<Button
 					variant={"destructive"}
